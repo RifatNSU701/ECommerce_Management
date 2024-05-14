@@ -14,7 +14,7 @@ public class Admin extends javax.swing.JFrame {
      */
     private boolean performLogin(String username, String password) {
     
-    return username.equals("rifat") && password.equals("123");
+    return username.equals("admin") && password.equals("password");
 }
     public Admin() {
         initComponents();

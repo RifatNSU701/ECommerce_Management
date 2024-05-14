@@ -1,0 +1,3 @@
+seller,nafis03,fuadzarif20@gmail.com,Nafis Fuad,01611372725,pass123
+buyer,swanon07,sh.sw12@gmail.com,Shahriar Swanon,01744356789,qwerty12
+seller,sajed02,ontu420@gmail.com,Sajedul,01777444650,janina123

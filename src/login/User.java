@@ -4,6 +4,7 @@
  */
 package login;
 
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,14 +18,6 @@ public class User extends javax.swing.JFrame {
      * Creates new form User
      */
     
-    private boolean buyerLogin(String username, String password) {
-    
-    return username.equals("fuad") && password.equals("123");
-}
-    private boolean sellerLogin(String username, String password) {
-    
-    return username.equals("nirob") && password.equals("123");
-}
     public User() {
         initComponents();
     }
@@ -242,7 +235,7 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        JOptionPane.showMessageDialog(User.this, "//Developed by Team\nRifat, Burad and Nirob//");
+        JOptionPane.showMessageDialog(User.this, "//Developed by Team\nRifat, Nafis and Nirob//");
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
@@ -267,15 +260,22 @@ public class User extends javax.swing.JFrame {
             }
             
             if(pass1.getText().isEmpty()){
-            JOptionPane.showMessageDialog(User.this, "UserName can't be empty");
+            JOptionPane.showMessageDialog(User.this, "Please enter a valid passsword");
             pass1.grabFocus();
             return;
             }
             
             String username = txt1.getText();
             String password = pass1.getText();
-            if(sellerLogin(username, password)) {
-        
+            List<String[]> userDataList = DataHandler.readUserData();
+    boolean loginSuccessful = false;
+    for (String[] userData : userDataList) {
+        if (userData.length == 6 && userData[0].equals("seller") && userData[1].equals(username) && userData[5].equals(password)) {
+            loginSuccessful = true;
+            break;
+        }
+    }
+    if (loginSuccessful) {
         JOptionPane.showMessageDialog(User.this, "Login Successful!");
         
        A_Win ent = new A_Win();
@@ -303,15 +303,22 @@ public class User extends javax.swing.JFrame {
             
             String username = txt1.getText();
             String password = pass1.getText();
-            if(buyerLogin(username, password)) {
-        
-            JOptionPane.showMessageDialog(User.this, "Login Successful!");
+            List<String[]> userDataList = DataHandler.readUserData();
+            boolean loginSuccessful = false;
+            for (String[] userData : userDataList) {
+            if (userData.length == 6 && userData[0].equals("buyer") && userData[1].equals(username) && userData[5].equals(password)) {
+            loginSuccessful = true;
+            break;
+        }
+    }
+    if (loginSuccessful) {
+        JOptionPane.showMessageDialog(User.this, "Login Successful!");
         
        A_Win ent = new A_Win();
        ent.show();
        
        dispose();
-    } else {
+     } else {
         // Login failed
         JOptionPane.showMessageDialog(User.this, "Invalid Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
     }

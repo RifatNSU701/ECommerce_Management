@@ -59,7 +59,7 @@ public class PassRec extends javax.swing.JFrame {
         jPanel3.setMinimumSize(new java.awt.Dimension(325, 520));
         jPanel3.setPreferredSize(new java.awt.Dimension(325, 520));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("E:\\NSU\\Project\\Java Project\\E_Commerce Management System\\Image\\2.jpeg")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\user\\Downloads\\E_Commerce Management System Demo\\E_Commerce Management System\\Image\\2.jpeg")); // NOI18N
         jLabel1.setText("jLabel1");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
