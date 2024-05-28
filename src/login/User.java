@@ -6,7 +6,7 @@ package login;
 
 import java.util.List;
 import javax.swing.JOptionPane;
-
+import Seller.Dashboard;
 /**
  *
  * @author Rifat
@@ -278,7 +278,7 @@ public class User extends javax.swing.JFrame {
     if (loginSuccessful) {
         JOptionPane.showMessageDialog(User.this, "Login Successful!");
         
-       A_Win ent = new A_Win();
+       Dashboard ent = new Dashboard(username);
        ent.show();
        
        dispose();
