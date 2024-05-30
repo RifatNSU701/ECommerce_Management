@@ -10,11 +10,12 @@ import java.io.ObjectInputStream;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import login.DataHandler;
 
 /**
  *
- * @author user
+ * @author Nafis
  */
 public class ViewProducts extends javax.swing.JFrame {
 
@@ -135,9 +136,13 @@ public class ViewProducts extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Username", "Product Id", "Product Name", "Unit Price", "Number Of Units", "Image Path"
+                "Username", "Product Id", "Product Name", "Unit Price", "Number Of Units", "Image"
             }
         ));
+        jTable1.setMaximumSize(new java.awt.Dimension(2147483647, 720));
+        jTable1.setMinimumSize(new java.awt.Dimension(90, 50));
+        jTable1.setRowHeight(50);
+        jTable1.setRowMargin(5);
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setBackground(new java.awt.Color(204, 255, 204));
@@ -220,6 +225,9 @@ public class ViewProducts extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         loadProducts();
+        
+        TableColumn imageColumn = jTable1.getColumnModel().getColumn(5);
+        imageColumn.setCellRenderer(new ImageRenderer());
     }
     
     /**

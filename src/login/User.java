@@ -4,9 +4,11 @@
  */
 package login;
 
+import Buyer.Home;
 import java.util.List;
 import javax.swing.JOptionPane;
 import Seller.Dashboard;
+import Seller.ProductGetSet;
 /**
  *
  * @author Rifat
@@ -14,6 +16,8 @@ import Seller.Dashboard;
 
 public class User extends javax.swing.JFrame {
 
+    private static List<ProductGetSet> products;
+    
     /**
      * Creates new form User
      */
@@ -32,6 +36,8 @@ public class User extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
@@ -45,9 +51,12 @@ public class User extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         pass1 = new javax.swing.JPasswordField();
         txt1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
 
         jLabel8.setText("jLabel8");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("User Promt");
@@ -83,7 +92,7 @@ public class User extends javax.swing.JFrame {
         });
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel4.setText("Doesn't have an account?");
+        jLabel4.setText("Don't have an account?");
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -135,18 +144,6 @@ public class User extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setText("Password");
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Forget Password?");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel3.setDebugGraphicsOptions(javax.swing.DebugGraphics.BUFFERED_OPTION);
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -174,7 +171,7 @@ public class User extends javax.swing.JFrame {
                                 .addComponent(pass1)))))
                 .addGap(239, 239, 239))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(275, 275, 275)
                         .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,10 +181,7 @@ public class User extends javax.swing.JFrame {
                         .addGap(231, 231, 231)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3)))))
+                            .addComponent(jLabel4))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -213,9 +207,7 @@ public class User extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3))
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -314,22 +306,15 @@ public class User extends javax.swing.JFrame {
     if (loginSuccessful) {
         JOptionPane.showMessageDialog(User.this, "Login Successful!");
         
-       A_Win ent = new A_Win();
-       ent.show();
-       
+       Home home = new Home(username);
+       home.show(); 
        dispose();
+       
      } else {
         // Login failed
         JOptionPane.showMessageDialog(User.this, "Invalid Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        PassRec rec = new PassRec();
-        rec.show();
-        
-        dispose();
-    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -368,9 +353,10 @@ public class User extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

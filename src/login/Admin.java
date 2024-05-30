@@ -1,5 +1,7 @@
 package login;
 
+import AdminPanel.AdminPanel;
+import Buyer.Home;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
@@ -219,10 +221,11 @@ public class Admin extends javax.swing.JFrame {
         // You can perform further actions here, such as opening a new window, etc.
         JOptionPane.showMessageDialog(Admin.this, "Login Successful!");
         
-       A_Win ent = new A_Win();
-       ent.show();
-       
+       AdminPanel ap = new AdminPanel();
+       ap.show();    
        dispose();
+       
+       
     } else {
         // Login failed
         JOptionPane.showMessageDialog(Admin.this, "Invalid Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);

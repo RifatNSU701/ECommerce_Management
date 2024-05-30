@@ -20,10 +20,12 @@ import javax.swing.JFileChooser;
  */
 public class Profile extends javax.swing.JFrame {
 
+    private static String username;
     /**
      * Creates new form Profile
      */
-    public Profile() {
+    public Profile(String username) {
+        this.username = username;
         initComponents();
     }
 
@@ -250,7 +252,7 @@ public class Profile extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Home hm = new Home();
+        Home hm = new Home(username);
         hm.show();
         
         dispose();
@@ -286,7 +288,7 @@ public class Profile extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Profile().setVisible(true);
+                new Profile(username).setVisible(true);
             }
         });
     }

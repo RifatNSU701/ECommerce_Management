@@ -5,10 +5,15 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -440,11 +445,28 @@ public class Products extends javax.swing.JFrame {
             String productId = p1.getText().trim();
             String productName = p2.getText().trim();
             double unitPrice = Double.parseDouble(p3.getText().trim());
-            int numberOfUnits = Integer.parseInt(p4.getText().trim());
-            
+            int numberOfUnits = Integer.parseInt(p4.getText().trim());            
             String imagePath = ((ImageIcon) sim1.getIcon()).getDescription();
             
-            ProductGetSet newProduct = new ProductGetSet(username, productId, productName, unitPrice, numberOfUnits, imagePath);
+            try (FileInputStream fis = new FileInputStream("products.dat");
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+                productlist = (ArrayList<ProductGetSet>) ois.readObject();
+            } catch (FileNotFoundException e) {
+                // No products file exists yet, so we will create a new one
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(Products.this, "Error loading existing products");
+                return;
+            }
+            
+            
+            String newImagePath = saveImage(imagePath,productId);
+            if(newImagePath == null){
+                JOptionPane.showMessageDialog(Products.this, "Error saving product image");
+            }
+            
+            ProductGetSet newProduct = new ProductGetSet(username, productId, productName, unitPrice, numberOfUnits, newImagePath);
             productlist.add(newProduct);
             
             try(FileOutputStream fos =new FileOutputStream("products.dat");
@@ -466,6 +488,28 @@ public class Products extends javax.swing.JFrame {
             
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    private String saveImage(String originalPath, String productId){
+        try{
+            Path source = Paths.get(originalPath);
+            String fileName = source.getFileName().toString();
+            String ext = "";
+            
+            int i = fileName.lastIndexOf(".");
+            if(i>0){
+                ext = fileName.substring(i+1);
+            }
+            
+            Path destination = Paths.get("product_images", productId + "." + ext);
+            Files.createDirectories(destination.getParent()); // Ensure the directory exists
+            Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+            return destination.toString();
+        }catch(IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        
+    }
+    
     private void d3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_d3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_d3ActionPerformed
@@ -540,6 +584,7 @@ public class Products extends javax.swing.JFrame {
             BufferedImage bi = ImageIO.read(new File(path));
             Image img = bi.getScaledInstance(125, 120, Image.SCALE_SMOOTH);
             ImageIcon icon = new ImageIcon(img);
+            icon.setDescription(path);
             sim1.setIcon(icon);
         } catch (IOException ex) {
             Logger.getLogger(Products.class.getName()).log(Level.SEVERE, null, ex);

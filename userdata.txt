@@ -1,5 +1,5 @@
 seller,nafis03,fuadzarif20@gmail.com,Nafis Fuad,01611372725,pass123
-buyer,swanon07,sh.sw12@gmail.com,Shahriar Swanon,01744356789,qwerty12
-seller,sajed02,ontu420@gmail.com,Sajedul,01777444650,janina123
-seller,ark701,corps.rifat@zohomail.com,Rifat Khan,01880715237,1234
-seller,ark701,corps.rifat@outlook.com,Riifat Khan,1880715237,1234
+seller,rifat01,corps.rifat@proton.me,Rifat Khan Rabbi,01880715237,pass456
+buyer,naimur02,naimur.rahman@gmail.com,Naimur Rahman,01646158411,pass789
+buyer,swanon04,shahriar.swanon@gmail.com,Shahriar Swanon,01711122201,janina123
+seller,ontu05,sajedul.ontu@gmail.com,Sajedul Ontu,017333222789,janina456

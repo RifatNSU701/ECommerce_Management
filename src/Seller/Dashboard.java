@@ -37,7 +37,6 @@ public class Dashboard extends javax.swing.JFrame {
         welcome = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         b2 = new javax.swing.JToggleButton();
-        b3 = new javax.swing.JToggleButton();
         b4 = new javax.swing.JToggleButton();
         b5 = new javax.swing.JToggleButton();
         b1 = new javax.swing.JToggleButton();
@@ -109,16 +108,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        b3.setBackground(new java.awt.Color(153, 255, 153));
-        b3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        b3.setForeground(new java.awt.Color(0, 0, 0));
-        b3.setText("Orders");
-        b3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b3ActionPerformed(evt);
-            }
-        });
-
         b4.setBackground(new java.awt.Color(153, 255, 153));
         b4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         b4.setForeground(new java.awt.Color(0, 0, 0));
@@ -143,6 +132,11 @@ public class Dashboard extends javax.swing.JFrame {
         b1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         b1.setForeground(new java.awt.Color(0, 0, 0));
         b1.setText("Profile");
+        b1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(255, 51, 51));
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -160,41 +154,33 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(b5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(b2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(b3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(b4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
-                .addContainerGap(17, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(b1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(b5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(b4, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                            .addComponent(b2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 11, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(b1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addGap(16, 16, 16)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(91, Short.MAX_VALUE)
+                .addContainerGap(61, Short.MAX_VALUE)
+                .addComponent(b1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(b2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(b3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(b4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(b5)
-                .addGap(103, 103, 103)
+                .addGap(127, 127, 127)
                 .addComponent(jButton1)
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(52, 52, 52)
-                    .addComponent(b1)
-                    .addContainerGap(290, Short.MAX_VALUE)))
         );
 
         jPanel3.setBackground(new java.awt.Color(204, 255, 204));
@@ -203,7 +189,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Times New Roman", 2, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Overview");
+        jLabel4.setText("Home");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -255,15 +241,8 @@ public class Dashboard extends javax.swing.JFrame {
         //JOptionPane.showMessageDialog(Dashboard.this, "Admin");
     }//GEN-LAST:event_b2ActionPerformed
 
-    private void b3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b3ActionPerformed
-        Orders or = new Orders(username);
-        or.show();
-        
-        dispose();
-    }//GEN-LAST:event_b3ActionPerformed
-
     private void b5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b5ActionPerformed
-        Wallet wt = new Wallet(username);
+        SellerWallet wt = new SellerWallet(username);
         wt.show();
         
         dispose();
@@ -282,6 +261,12 @@ public class Dashboard extends javax.swing.JFrame {
         
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void b1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b1ActionPerformed
+        Profile pf = new Profile(username);
+        pf.show();
+        dispose();
+    }//GEN-LAST:event_b1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,7 +306,6 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton b1;
     private javax.swing.JToggleButton b2;
-    private javax.swing.JToggleButton b3;
     private javax.swing.JToggleButton b4;
     private javax.swing.JToggleButton b5;
     private javax.swing.JButton jButton1;

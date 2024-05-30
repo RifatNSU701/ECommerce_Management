@@ -25,6 +25,13 @@ public class ProductGetSet implements Serializable {
         this.imagePath = imagePath;
     }
 
+    public ProductGetSet(String part, String part2){
+        imagePath = part;
+        productName = part2;
+        
+       
+    }
+
     public String getUsername() {
         return username;
     }

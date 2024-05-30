@@ -1,24 +1,49 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Seller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Rifat
+ * @author Nafis
  */
-public class Wallet extends javax.swing.JFrame {
+public class SellerWallet extends javax.swing.JFrame {
 
     private static String username;
+    
+    private static ProductGetSet info;
+    private Map<String, Double> balances;
+   
+    
+    
+    
+    
     /**
      * Creates new form Wallet
      */
-    public Wallet(String username) {
+    public SellerWallet(String username) {
         this.username = username;
+        this.balances = new HashMap<>();
+        loadBalances();       
         initComponents();
+        updateSellerBalance();
+    }
+    
+    public SellerWallet(ProductGetSet info){
+        this.info = info;
+        this.balances = new HashMap<>();
+        loadBalances();
+        initComponents();
+        updateSellerBalance();
     }
 
     /**
@@ -44,20 +69,14 @@ public class Wallet extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        sellerBalance = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        a1 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        a2 = new javax.swing.JPasswordField();
+        amountWithdraw = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        a3 = new javax.swing.JCheckBox();
-        jLabel10 = new javax.swing.JLabel();
         a4 = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -100,7 +119,7 @@ public class Wallet extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Seller's Wallet");
+        jLabel2.setText(username+"'s Wallet");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,23 +150,21 @@ public class Wallet extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Account");
 
-        jButton1.setBackground(new java.awt.Color(153, 255, 153));
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setText("Balance");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 153, 153));
         jLabel4.setText("Credit");
 
-        jLabel14.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 51, 204));
-        jLabel14.setText("Tap to see balance");
+        sellerBalance.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
+        sellerBalance.setForeground(new java.awt.Color(0, 51, 204));
+        sellerBalance.setText("Tap to see balance");
+        sellerBalance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sellerBalanceMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                sellerBalanceMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -159,9 +176,7 @@ public class Wallet extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel14))
+                .addComponent(sellerBalance)
                 .addContainerGap(222, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -172,10 +187,8 @@ public class Wallet extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel14))
-                .addGap(38, 38, 38)
-                .addComponent(jButton1)
-                .addContainerGap(120, Short.MAX_VALUE))
+                    .addComponent(sellerBalance))
+                .addContainerGap(190, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(51, 51, 0));
@@ -187,32 +200,14 @@ public class Wallet extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel6.setText("Ammount");
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel7.setText("Password");
-
         jButton2.setBackground(new java.awt.Color(255, 51, 51));
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jButton2.setText("Withrawal");
+        jButton2.setText("Withraw");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-
-        jLabel9.setBackground(new java.awt.Color(0, 51, 51));
-        jLabel9.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 51, 51));
-        jLabel9.setText("The withrawal fee is 07%");
-
-        a3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                a3ActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel10.setText("I agree with the terms above.");
 
         a4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bkash", "Rocket", "Nogod", "Bank Transfer", " " }));
 
@@ -226,36 +221,22 @@ public class Wallet extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(94, 94, 94)
-                                .addComponent(jLabel5))
+                                .addGap(88, 88, 88)
+                                .addComponent(jLabel8))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(jLabel7)
-                                            .addGap(53, 53, 53)
-                                            .addComponent(a2))
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel9)
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jLabel8)
-                                                .addGap(62, 62, 62)))
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(jLabel6)
-                                            .addGap(47, 47, 47)
-                                            .addComponent(a1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(a3))
-                                    .addComponent(jLabel13))))
-                        .addGap(0, 47, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(a4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel6)
+                                .addGap(47, 47, 47)
+                                .addComponent(amountWithdraw, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                                .addComponent(a4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -270,29 +251,16 @@ public class Wallet extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(a1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(a2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addGap(34, 34, 34)
+                    .addComponent(amountWithdraw, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67)
                 .addComponent(jLabel8)
-                .addGap(18, 18, 18)
+                .addGap(44, 44, 44)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel9)
-                            .addGap(34, 34, 34))
-                        .addComponent(jLabel10))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(a3)))
-                .addGap(33, 33, 33)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(a4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
-                .addGap(45, 45, 45)
-                .addComponent(jButton2)
+                        .addComponent(jLabel13)
+                        .addGap(96, 96, 96)
+                        .addComponent(jButton2))
+                    .addComponent(a4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -300,16 +268,13 @@ public class Wallet extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel11.setText("Banking");
+        jLabel11.setText("Withdrawal Policy");
 
         jLabel12.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 204, 204));
-        jLabel12.setText("You can withdrawal using");
+        jLabel12.setText("You can withdraw using Online Banking");
 
-        jToggleButton1.setBackground(new java.awt.Color(255, 204, 204));
-        jToggleButton1.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
-        jToggleButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jToggleButton1.setText("Return to Dashboard");
+        jToggleButton1.setText("Back");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -321,12 +286,16 @@ public class Wallet extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel11))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel11)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(134, 134, 134)
+                        .addComponent(jToggleButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,8 +304,9 @@ public class Wallet extends javax.swing.JFrame {
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addComponent(jToggleButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addComponent(jToggleButton1)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -368,27 +338,105 @@ public class Wallet extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private void loadBalances(){
+        try(BufferedReader reader = new BufferedReader(new FileReader("balances.txt"))){
+            String line;
+            while((line = reader.readLine())!= null){
+                String[] parts = line.split(":");
+                balances.put(parts[0], Double.parseDouble(parts[1]));
+                
+            }
+            System.out.println("Balance loaded: "+balances);
+        }catch(IOException e){
+            e.printStackTrace();
+            System.err.println("Error loading balance: "+ e.getMessage());
+        }
+    }
+    
+    
+            private void saveBalances(){
+                try(BufferedWriter writer = new BufferedWriter(new FileWriter("balances.txt"))){
+                    for(Map.Entry<String, Double> entry : balances.entrySet()){
+                        writer.write(entry.getKey()+":"+entry.getValue());
+                        writer.newLine();
+                    }
+                    System.out.println("Balances Saved: "+balances); 
+                }catch(IOException e){
+                    e.printStackTrace();
+                    System.err.println("Error saving balance: "+e.getMessage());
+                }
+            }
+            
+            private double getBalance(ProductGetSet info){
+                return balances.getOrDefault(info.getUsername(), 0.0);
+            }
+            
+            private void addBalance(String username,ProductGetSet info){
+                balances.put(username, getBalance(info)+info.getUnitPrice());
+            }
+            
+            private boolean withdrawBalance(ProductGetSet info){ 
+            
+                double currentBalance = getBalance(info);
+                if(info.getUnitPrice()>0 && info.getUnitPrice()<= currentBalance){
+                    balances.put(info.getUsername(), currentBalance - info.getUnitPrice());
+                    saveBalances();
+                    return true;
+                }
+            return false;
+            }
+    
+            private void updateSellerBalance() {
+        if(sellerBalance != null & info != null){
+        sellerBalance.setText(String.format("%.2f", getBalance(info)));
+       }
+    }
+            
+        
+    
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String amountText = amountWithdraw.getText().trim();
+        if(amountText.isEmpty()){
+            JOptionPane.showMessageDialog(SellerWallet.this, "Enter an amount");
+        }
+        else{
+            try {
+                double amount = Double.parseDouble(amountText);
+                if(amount>0 && amount<= getBalance(info)){
+                    withdrawBalance(info);
+                    JOptionPane.showMessageDialog(this, "Withdrawal Successfull");
+                    updateSellerBalance();
+                    
+                }else{
+                    JOptionPane.showMessageDialog(this, "Invalid Amount");
+                }
+                
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(SellerWallet.this, "Invalid amount");
+            }
+            
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void a3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_a3ActionPerformed
+    private void sellerBalanceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellerBalanceMouseClicked
+        updateSellerBalance();
+        sellerBalance.setText(Double.toString(getBalance(info)));
+         JOptionPane.showMessageDialog(this, sellerBalance.getText());
+    }//GEN-LAST:event_sellerBalanceMouseClicked
+
+    private void sellerBalanceMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellerBalanceMousePressed
+         
+    }//GEN-LAST:event_sellerBalanceMousePressed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         Dashboard dr = new Dashboard(username);
         dr.show();
-        
         dispose();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(a1.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(Wallet.this, "Enter an amount");
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
+     
     /**
      * @param args the command line arguments
      */
@@ -406,47 +454,40 @@ public class Wallet extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Wallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SellerWallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Wallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SellerWallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Wallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SellerWallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Wallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SellerWallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Wallet(username).setVisible(true);
+                new SellerWallet(username).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField a1;
-    private javax.swing.JPasswordField a2;
-    private javax.swing.JCheckBox a3;
     private javax.swing.JComboBox<String> a4;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField amountWithdraw;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
@@ -459,5 +500,6 @@ public class Wallet extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JLabel sellerBalance;
     // End of variables declaration//GEN-END:variables
 }
