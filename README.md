@@ -36,7 +36,6 @@ Features and Functionalities
 
 Buyer’s Features
 Registration and Login:
-Create an account and log in for personalized features.
 
 
 
