@@ -89,7 +89,7 @@ HIVE's architecture is modular and scalable, consisting of:
 Presentation Layer:
  Handles the user interface and interactions.
 Data Access Layer:
- Manages data storage and retrieval from the database.
+Manages data storage and retrieval from the database.
 
 Technology Stack
 Programming Language: Java
