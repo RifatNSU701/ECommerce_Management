@@ -395,6 +395,10 @@ Whenever a buyer buys from a particular seller then the seller would be able to 
 Product Reviews and Ratings:
 Enable customers to leave reviews and ratings for products to build trust and assist other customers in making informed decisions.
 
+Author 
+Md Nafis Fuad
+Md Rifat Khan Rabbi 
+Naimur Rahman Nibir 
 
 
 
